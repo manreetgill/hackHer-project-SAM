@@ -11,9 +11,9 @@ if "login" not in st.session_state:
 st.set_page_config(page_title="Welcome!", page_icon="🔒", layout="centered")
         
 # App title
-#st.title("Welcome to Frolick Finder!")
+st.title("Welcome to Frolick Finder!")
 
-#st.image("frolickfinder.png", width=600) 
+st.image("frolickfinder.png", width=600) 
 
 st.markdown("""
     <style>
@@ -67,8 +67,8 @@ with col2:
                 st.success(f"Welcome back, {username}!")
                 #setting the state to true for web page navigation
                 st.session_state.login = True
-                st.switch_page("MainPage.py")
-
+                #Redirect to switch page to main
+                st.switch_page("pages/main_page.py")
             else:
                 st.error("Invalid username or password.")
 
@@ -88,7 +88,7 @@ with col2:
                 st.error("Please fill in all fields.")
             else:
                 st.session_state.users[new_username] = new_password
-                st.success("Account created successfully! Now sign in.")
+                st.success("Account created successfully! Please sign in.")
 
 
 
