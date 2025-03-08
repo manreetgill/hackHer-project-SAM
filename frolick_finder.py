@@ -2,98 +2,99 @@ import streamlit as st
 import os
 print(os.getcwd())
 
-def home_page():
-    """
-    
-    """
-    # Title Page
-    st.set_page_config(page_title="Welcome!", page_icon="🔒", layout="centered")
+#intializing the session state for login status 
+if "login" not in st.session_state:
+    st.session_state.login = False
+
+
+# Title Page
+st.set_page_config(page_title="Welcome!", page_icon="🔒", layout="centered")
         
-    # App title
-    #st.title("Welcome to Frolick Finder!")
+# App title
+#st.title("Welcome to Frolick Finder!")
 
-    #st.image("frolickfinder.png", width=600) 
+#st.image("frolickfinder.png", width=600) 
 
-    st.markdown("""
-        <style>
-        body {
-            background-color: #f0f8ff;  /* Set background color */
-            font-size: 18px;            /* Increase font size */
-        }
-        .stButton>button {
-            background-color: #ff6347;  /* Change button color */
-            color: white;
-        }
-        .css-ffhzg2 {
-            max-width: 1200px;  /* Set max width for the whole layout */
-            margin: 0 auto;     /* Center the content */
-        }
-        .signup-box {
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+st.markdown("""
+    <style>
+    body {
+        background-color: #f0f8ff;  /* Set background color */
+        font-size: 18px;            /* Increase font size */
+    }
+    .stButton>button {
+        background-color: #ff6347;  /* Change button color */
+        color: white;
+    }
+    .css-ffhzg2 {
+        max-width: 1200px;  /* Set max width for the whole layout */
+        margin: 0 auto;     /* Center the content */
+    }
+    .signup-box {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-    # Create two columns: one for the logo and one for the login/signup form
-    col1, col2 = st.columns([0.6, 0.4])  # Adjust the width ratio (1:3)
+# Create two columns: one for the logo and one for the login/signup form
+col1, col2 = st.columns([0.6, 0.4])  # Adjust the width ratio (1:3)
 
-    with col1:
-        # Display the logo/image on the left (adjust width to suit)
-        st.image("frolickfinder.png", width=800)
+with col1:
+    # Display the logo/image on the left (adjust width to suit)
+    st.image("frolickfinder.png", width=800)
 
-    with col2:
-        # Toggle between Sign In and Sign Up with circular button
-        choice = st.radio("Choose an option:", ["Sign In", "Sign Up"])
+with col2:
+    # Toggle between Sign In and Sign Up with circular button
+    choice = st.radio("Choose an option:", ["Sign In", "Sign Up"])
 
-        # Session state works as a dictionary, accessing usernames (ex. if username does not exist in dictionary, it will give an error/tell users to put new input)
-        if "users" not in st.session_state:
-            st.session_state.users = {}
+    # Session state works as a dictionary, accessing usernames (ex. if username does not exist in dictionary, it will give an error/tell users to put new input)
+    if "users" not in st.session_state:
+        st.session_state.users = {}
 
-        if choice == "Sign In":
-            st.subheader("Sign In")
+    if choice == "Sign In":
+        st.subheader("Sign In")
             
-            username = st.text_input("Username")
-            password = st.text_input("Password", type="password")
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
             
-            if st.button("Login"):
-                if username in st.session_state.users and st.session_state.users[username] == password:
-                    st.success(f"Welcome back, {username}!")
-                    st.switch_page("MainPage.py")
+        if st.button("Login"):
+            if username in st.session_state.users and st.session_state.users[username] == password:
+                st.success(f"Welcome back, {username}!")
+                #setting the state to true for web page navigation
+                st.session_state.login = True
+                st.switch_page("MainPage.py")
 
-                else:
-                    st.error("Invalid username or password.")
+            else:
+                st.error("Invalid username or password.")
 
-        elif choice == "Sign Up":
-            st.subheader("Sign Up")
+    elif choice == "Sign Up":
+        st.subheader("Sign Up")
             
-            new_username = st.text_input("Choose a Username")
-            new_password = st.text_input("Choose a Password", type="password")
-            confirm_password = st.text_input("Confirm Password", type="password")
+        new_username = st.text_input("Choose a Username")
+        new_password = st.text_input("Choose a Password", type="password")
+        confirm_password = st.text_input("Confirm Password", type="password")
             
-            if st.button("Register"):
-                if new_username in st.session_state.users:
-                    st.error("Username already taken! Try another one.")
-                elif new_password != confirm_password:
-                    st.error("Passwords do not match!")
-                elif not new_username or not new_password:
-                    st.error("Please fill in all fields.")
-                else:
-                    st.session_state.users[new_username] = new_password
-                    st.success("Account created successfully! Now sign in.")
+        if st.button("Register"):
+            if new_username in st.session_state.users:
+                st.error("Username already taken! Try another one.")
+            elif new_password != confirm_password:
+                st.error("Passwords do not match!")
+            elif not new_username or not new_password:
+                st.error("Please fill in all fields.")
+            else:
+                st.session_state.users[new_username] = new_password
+                st.success("Account created successfully! Now sign in.")
 
-sign_in_page()
+
 
 # Define pages
-def home_page():
-    st.title("Home Page")
-    st.write("Welcome to the home page!")
 
+'''
 def page_1():
     st.title("Page 1")
     st.write("This is page 1.")
@@ -130,4 +131,4 @@ elif st.session_state.page == "Page 2":
     page_2()
 elif st.session_state.page == "Page 3":
     page_3()
- 
+'''
