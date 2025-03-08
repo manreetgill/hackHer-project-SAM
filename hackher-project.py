@@ -1,19 +1,45 @@
-""""
-- Main menu 
-    1. Title 
-    2. Welcoming message
-    3. Sign in options (2 Buttons)
+import streamlit as st
 
-"""
-#im gonna watch the women in tech panel on teams fr 
+# Title Page
+st.set_page_config(page_title="Welcome!", page_icon="🔒", layout="centered")
 
-def main():
-    print("Hello! Welcome to Frolick Finder! This platform will allow you to find local events. We're here to save your time and money!")
-    print("Sign in as an event organizer")
-    print("Sign in as a member")
+# App title
+st.title("Welcome to Frolick Finder!")
+
+# Toggle between Sign In and Sign Up with circular button
+choice = st.radio("Choose an option:", ["Sign In", "Sign Up"])
+
+# Session state works as a dictionary, accessing usernames (ex. if username does not exist in dictionary, it will give an error/tell users to put new input)
+if "users" not in st.session_state:
+    st.session_state.users = {}
+
+if choice == "Sign In":
+    st.subheader("Sign In")
     
-    user_inp = input("What would you like to do?")
-
-    if user_inp == "Sign in as an event organizer":
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
     
-#can i do something yes one sec
+    if st.button("Login"):
+        if username in st.session_state.users and st.session_state.users[username] == password:
+            st.success(f"Welcome back, {username}!")
+        else:
+            st.error("Invalid username or password.")
+
+elif choice == "Sign Up":
+    st.subheader("Sign Up")
+    
+    new_username = st.text_input("Choose a Username")
+    new_password = st.text_input("Choose a Password", type="password")
+    confirm_password = st.text_input("Confirm Password", type="password")
+    
+    if st.button("Register"):
+        if new_username in st.session_state.users:
+            st.error("Username already taken! Try another one.")
+        elif new_password != confirm_password:
+            st.error("Passwords do not match!")
+        elif not new_username or not new_password:
+            st.error("Please fill in all fields.")
+        else:
+            st.session_state.users[new_username] = new_password
+            st.success("Account created successfully! Now sign in.")
+
