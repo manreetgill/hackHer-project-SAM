@@ -15,6 +15,20 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Adding custom CSS for the blue/yellow gradient background
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: rgb(251,187,63);
+        background: radial-gradient(circle, rgba(251,187,63,1) 0%, rgba(164,221,237,1) 100%);
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 if "login" not in st.session_state or not st.session_state.login:
     st.error("You must be logged in to access this page.")
     st.stop() #Stops the rest of the page from loading!!!!

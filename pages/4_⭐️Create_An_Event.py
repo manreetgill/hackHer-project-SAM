@@ -14,11 +14,32 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Adding custom CSS for the blue/yellow gradient background
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: rgb(251,187,63);
+        background: radial-gradient(circle, rgba(251,187,63,1) 0%, rgba(164,221,237,1) 100%);
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.title("📅 Event Posting Page")
 
 if "login" not in st.session_state or not st.session_state.login:
     st.error("You must be logged in to access this page.")
     st.stop() #Stops the rest of the page from loading!!!!
+
+# Check if the user is an Event Organizer
+elif "current_user" not in st.session_state or st.session_state.current_user.get("role") != "Event Organizer":
+    st.error("Access denied. Only Event Organizers can post events. Please go back.")
+    st.stop()  # Stops the rest of the page from loading!!!!
+
+# If the role is equal to Event Organizer, proceed with event posting
+st.success("Welcome, Event Organizer! You can now post events.")
 
 # Initialize database
 def init_db():

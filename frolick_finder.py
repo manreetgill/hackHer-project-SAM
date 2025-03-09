@@ -80,14 +80,14 @@ with col2:  # Put everything inside the middle column
     with col4:
         if st.button("Sign Up as General User"):
             st.session_state.choice = "Sign Up as General User"
-            st.switch_page("pages/1_Login.py")  # Redirect to Login.py
+            st.switch_page("pages/1_⭐️Login.py")  # Redirect to Login.py
 
     with col5:
         if st.button("Sign Up as Event Organizer"):
             st.session_state.choice = "Sign Up as Event Organizer"
-            st.switch_page("pages/1_Login.py")  # Redirect to Login.py
+            st.switch_page("pages/1_⭐️Login.py")  # Redirect to Login.py
 
     with col6:
         if st.button("Sign In"):
             st.session_state.choice = "Sign In"
-            st.switch_page("pages/1_Login.py")  # Redirect to Login.py
+            st.switch_page("pages/1_⭐️Login.py")  # Redirect to Login.py

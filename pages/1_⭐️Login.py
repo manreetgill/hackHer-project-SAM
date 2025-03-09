@@ -16,7 +16,7 @@ st.markdown(
 # Set page configuration
 #st.set_page_config(page_title="Login", page_icon="🔒", layout="centered")
 
-# Add custom CSS for the gradient background
+# Adding custom CSS for the blue/yellow gradient background
 st.markdown(
     """
     <style>
@@ -67,9 +67,9 @@ if not st.session_state.login:
                     "role": st.session_state.users[username]["role"]
                 }
                 # Redirect to the main page
-                st.switch_page("pages/2_Home.py")
+                st.switch_page("pages/2_⭐️Home.py")
             else:
-                st.error("Invalid username or password.")
+                st.error("Invalid username or password. ❌")
 
     # General User Sign-Up
     elif choice == "Sign Up as General User":
@@ -81,14 +81,14 @@ if not st.session_state.login:
         
         if st.button("Register"):
             if new_username in st.session_state.users:
-                st.error("Username already taken! Try another one.")
+                st.error("Username already taken! Try another one ❌")
             elif new_password != confirm_password:
-                st.error("Passwords do not match!")
+                st.error("Passwords do not match! ❌")
             elif not new_username or not new_password:
                 st.error("Please fill in all fields.")
             else:
                 st.session_state.users[new_username] = {"password": new_password, "role": "General User"}
-                st.success("Account created successfully! Please sign in.")
+                st.success("Account created successfully! Please sign in. ✅")
 
     # Event Organizer Sign-Up
     elif choice == "Sign Up as Event Organizer":
@@ -107,7 +107,7 @@ if not st.session_state.login:
                 st.error("Please fill in all fields.")
             else:
                 st.session_state.users[new_username] = {"password": new_password, "role": "Event Organizer"}
-                st.success("Account created successfully! Please sign in.")
+                st.success("Account created successfully! Please sign in. ✅")
 
 else:
     # User is logged in, show the main app content
@@ -116,7 +116,7 @@ else:
         st.write(f"Your role: {st.session_state.current_user['role']}")
 
     # Example: Add a logout button
-    if st.button("Logout"):
+    if st.button("👋 Logout"):
         st.session_state.login = False
         st.session_state.current_user = None
-        st.experimental_rerun()  # Refresh the page to show the login form again
+        st.rerun()  # Refresh the page to show the login form again
