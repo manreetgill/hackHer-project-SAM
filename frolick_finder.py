@@ -1,125 +1,93 @@
 import streamlit as st
 import os
+
+# Set all the font to monospace
+st.markdown(
+    """
+    <style>
+    * {
+        font-family: monospace !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+# Print current working directory (for debugging)
 print(os.getcwd())
 
-#intializing the session state for login status 
+# Initialize session state for login status
 if "login" not in st.session_state:
     st.session_state.login = False
 
+# Set page configuration
+#st.set_page_config(page_title="Welcome!", page_icon="🔒", layout="centered")
 
-# Title Page
-st.set_page_config(page_title="Welcome!", page_icon="🔒", layout="centered")
-        
-# App title
-st.title("Welcome to Frolick Finder!")
-
-st.image("frolickfinder.png", width=600) 
-
-st.markdown("""
+# Add custom CSS for the gradient background and improved styling
+st.markdown(
+    """
     <style>
-    body {
-        background-color: #f0f8ff;  /* Set background color */
-        font-size: 18px;            /* Increase font size */
+    .stApp {
+        background: rgb(246,196,101);
+        background: radial-gradient(circle, rgba(246,196,101,1) 0%, rgba(230,148,233,1) 100%);
+        font-family: 'Arial', sans-serif;
     }
     .stButton>button {
-        background-color: #ff6347;  /* Change button color */
+        background-color: #a4dded;
         color: white;
-    }
-    .css-ffhzg2 {
-        max-width: 1200px;  /* Set max width for the whole layout */
-        margin: 0 auto;     /* Center the content */
-    }
-    .signup-box {
-        border: 2px solid #ccc;
         border-radius: 10px;
         padding: 20px;
-        background-color: white;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        margin: 0 auto;
+        font-size: 18px;
+        font-weight: bold;
+        border: none;
+        transition: background-color 0.3s ease;
+        width: 100%; /* Make buttons take full width of their container */
+        height: 100px; /* Set a fixed height for square buttons */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .stButton>button:hover {
+        background-color: #74b0e4;
+    }
+    .stTitle {
+        color: #ffffff;
+        text-align: center;
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
     }
     </style>
-""", unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
-# Create two columns: one for the logo and one for the login/signup form
-col1, col2 = st.columns([0.6, 0.4])  # Adjust the width ratio (1:3)
+# Center content using Streamlit columns
+col1, col2, col3 = st.columns([1, 2, 1])  # Middle column is wider to center content
 
-with col1:
-    # Display the logo/image on the left (adjust width to suit)
-    st.image("frolickfinder.png", width=800)
+with col2:  # Put everything inside the middle column
+    # App title
 
-with col2:
-    # Toggle between Sign In and Sign Up with circular button
-    choice = st.radio("Choose an option:", ["Sign In", "Sign Up"])
+    # Try/except to handle image loading
+    try:
+        st.image("fflogo.png", use_container_width=True, output_format="PNG")  # Removed caption
+    except:
+        st.error("Image not found. Please check if 'fflogo.png' exists in the correct directory.")
 
-    # Session state works as a dictionary, accessing usernames (ex. if username does not exist in dictionary, it will give an error/tell users to put new input)
-    if "users" not in st.session_state:
-        st.session_state.users = {}
+    # Create three square buttons using columns
+    col4, col5, col6 = st.columns(3)  # Three equal-width columns
 
-    if choice == "Sign In":
-        st.subheader("Sign In")
-            
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-            
+    with col4:
+        if st.button("Sign Up as General User"):
+            st.session_state.choice = "Sign Up as General User"
+            st.switch_page("pages/1_Login.py")  # Redirect to Login.py
 
-    elif choice == "Sign Up":
-        st.subheader("Sign Up")
-            
-        new_username = st.text_input("Choose a Username")
-        new_password = st.text_input("Choose a Password", type="password")
-        confirm_password = st.text_input("Confirm Password", type="password")
-            
-        if st.button("Register"):
-            if new_username in st.session_state.users:
-                st.error("Username already taken! Try another one.")
-            elif new_password != confirm_password:
-                st.error("Passwords do not match!")
-            elif not new_username or not new_password:
-                st.error("Please fill in all fields.")
-            else:
-                st.session_state.users[new_username] = new_password
-                st.success("Account created successfully! Please sign in.")
+    with col5:
+        if st.button("Sign Up as Event Organizer"):
+            st.session_state.choice = "Sign Up as Event Organizer"
+            st.switch_page("pages/1_Login.py")  # Redirect to Login.py
 
-
-
-# Define pages
-
-'''
-def page_1():
-    st.title("Page 1")
-    st.write("This is page 1.")
-
-def page_2():
-    st.title("Page 2")
-    st.write("This is page 2.")
-
-def page_3():
-    st.title("Page 3")
-    st.write("This is page 3.")
-
-# Initialize session state for page navigation
-if "page" not in st.session_state:
-    st.session_state.page = "Home"
-
-# Sidebar navigation
-st.sidebar.title("Navigation")
-if st.sidebar.button("Home"):
-    st.session_state.page = "Home"
-if st.sidebar.button("Page 1"):
-    st.session_state.page = "Page 1"
-if st.sidebar.button("Page 2"):
-    st.session_state.page = "Page 2"
-if st.sidebar.button("Page 3"):
-    st.session_state.page = "Page 3"
-
-# Display the selected page
-if st.session_state.page == "Home":
-    home_page()
-elif st.session_state.page == "Page 1":
-    page_1()
-elif st.session_state.page == "Page 2":
-    page_2()
-elif st.session_state.page == "Page 3":
-    page_3()
-'''
+    with col6:
+        if st.button("Sign In"):
+            st.session_state.choice = "Sign In"
+            st.switch_page("pages/1_Login.py")  # Redirect to Login.py

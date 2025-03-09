@@ -3,6 +3,22 @@ import sqlite3
 from PIL import Image
 import io
 
+# Setting the font to monospace
+st.markdown(
+    """
+    <style>
+    * {
+        font-family: monospace !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+if "login" not in st.session_state or not st.session_state.login:
+    st.error("You must be logged in to access this page.")
+    st.stop() #Stops the rest of the page from loading!!!!
+    
 st.title("📅 Event Gallery")
 
 # Function to load events from database ## defo look into this cause what is tissss

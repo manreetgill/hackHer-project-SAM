@@ -2,7 +2,23 @@ import streamlit as st
 import sqlite3
 from datetime import datetime
 
+# Setting the font to monospace
+st.markdown(
+    """
+    <style>
+    * {
+        font-family: monospace !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.title("📅 Event Posting Page")
+
+if "login" not in st.session_state or not st.session_state.login:
+    st.error("You must be logged in to access this page.")
+    st.stop() #Stops the rest of the page from loading!!!!
 
 # Initialize database
 def init_db():
