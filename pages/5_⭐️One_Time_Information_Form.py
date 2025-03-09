@@ -1,4 +1,6 @@
 import streamlit as st
+#We used Steamlit Documentation to figure out most of this!
+#CSS bits taken from online (e.g, HEX codes, syntax) for all pages that include it
 
 # Setting the font to monospace
 st.markdown(
@@ -12,7 +14,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Adding custom CSS for the blue/yellow gradient background
+#Add custom CSS for the gradient background
 st.markdown(
     """
     <style>
@@ -25,8 +27,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("Inputting Your Information")
-
+try:
+    st.image("infoposting.png", width=400)  #infoposting.png is title
+except FileNotFoundError:
+    st.error("Image not found. Please ensure 'infoposting.png' is in the correct directory.")
 if "login" not in st.session_state or not st.session_state.login:
     st.error("You must be logged in to access this page.")
     st.stop() #Stops the rest of the page from loading!!!!

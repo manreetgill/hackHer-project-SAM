@@ -1,7 +1,9 @@
 import streamlit as st
 import os
+#We used Steamlit Documentation to figure out most of this!
+#CSS bits taken from online (e.g, HEX codes, syntax) for all pages that include it
 
-# Set all the font to monospace
+#Set all the font to monospace
 st.markdown(
     """
     <style>
@@ -13,17 +15,14 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Print current working directory (for debugging)
+#Print current working directory (for debugging)
 print(os.getcwd())
 
-# Initialize session state for login status
+#Initialize session state for login status
 if "login" not in st.session_state:
     st.session_state.login = False
 
-# Set page configuration
-#st.set_page_config(page_title="Welcome!", page_icon="🔒", layout="centered")
-
-# Add custom CSS for the gradient background and improved styling
+#Add custom CSS for the gradient background
 st.markdown(
     """
     <style>
@@ -62,32 +61,33 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Center content using Streamlit columns
+#Center content using Streamlit columns (interpreted as percentages or fractions, e.g., thirds)
 col1, col2, col3 = st.columns([1, 2, 1])  # Middle column is wider to center content
 
-with col2:  # Put everything inside the middle column
-    # App title
+with col2:  #Put everything inside the middle column
+    #App title
 
-    # Try/except to handle image loading
+    #Try/except to handle image loading
     try:
         st.image("fflogo.png", use_container_width=True, output_format="PNG")  # Removed caption
     except:
-        st.error("Image not found. Please check if 'fflogo.png' exists in the correct directory.")
+        st.error("Image not found. Please check if 'fflogo.png' exists in the right directory.")
 
-    # Create three square buttons using columns
-    col4, col5, col6 = st.columns(3)  # Three equal-width columns
+    #Create three square buttons using columns
+    col4, col5, col6 = st.columns(3)  #Three equal-width columns
 
+    #Redirect to Login.py
     with col4:
         if st.button("Sign Up as General User"):
             st.session_state.choice = "Sign Up as General User"
-            st.switch_page("pages/1_⭐️Login.py")  # Redirect to Login.py
+            st.switch_page("pages/1_⭐️Login.py") 
 
     with col5:
         if st.button("Sign Up as Event Organizer"):
             st.session_state.choice = "Sign Up as Event Organizer"
-            st.switch_page("pages/1_⭐️Login.py")  # Redirect to Login.py
+            st.switch_page("pages/1_⭐️Login.py")  
 
     with col6:
         if st.button("Sign In"):
             st.session_state.choice = "Sign In"
-            st.switch_page("pages/1_⭐️Login.py")  # Redirect to Login.py
+            st.switch_page("pages/1_⭐️Login.py")
